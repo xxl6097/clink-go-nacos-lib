@@ -26,7 +26,6 @@ type Nacos struct {
 	host         string
 	port         uint64
 	clientConfig constant.ClientConfig
-	Spring       *entity.SpringConfig
 }
 
 func NewNacos(_namespace, _host string, _port uint64) iface.INacos {
@@ -45,8 +44,11 @@ func NewNacos(_namespace, _host string, _port uint64) iface.INacos {
 		LogLevel:            "debug",
 	}
 	this.clientConfig = clientConfig
-	this.initConfig(clientConfig)
 	return this
+}
+
+func (this *Nacos) GetSpring() *entity.SpringConfig {
+	return this.getRedisAndRokMQConfig()
 }
 
 func Get[T any](dataid, group string, inacos iface.INacos) *T {
@@ -92,7 +94,7 @@ func (this *Nacos) GetConfig(dataid, group string) string {
 	return content
 }
 
-func (this *Nacos) initConfig(clientConfig constant.ClientConfig) {
+func (this *Nacos) getRedisAndRokMQConfig() *entity.SpringConfig {
 	//server := getConfig(DATA_ID, GROUP, clientConfig)
 	//glog.Debug("Nacos 配置文件:", server)
 	//glog.Debug("Nacos 配置文件:", redis)
@@ -126,5 +128,5 @@ func (this *Nacos) initConfig(clientConfig constant.ClientConfig) {
 		}
 	}
 	glog.Info("---->", _spring)
-	this.Spring = &_spring
+	return &_spring
 }
