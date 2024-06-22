@@ -1,6 +1,30 @@
 #!/bin/bash
 
-version=v0.0.4
+
+function getversion() {
+  appversion=$(cat version.txt)
+  if [ "$appversion" = "" ]; then
+    appversion="0.0.0"
+    echo $appversion
+  else
+    v3=$(echo $appversion | awk -F'.' '{print($3);}')
+    v2=$(echo $appversion | awk -F'.' '{print($2);}')
+    v1=$(echo $appversion | awk -F'.' '{print($1);}')
+    if [[ $(expr $v3 \>= 9) == 1 ]]; then
+      v3=0
+      if [[ $(expr $v2 \>= 9) == 1 ]]; then
+        v2=0
+        v1=$(expr $v1 + 1)
+      else
+        v2=$(expr $v2 + 1)
+      fi
+    else
+      v3=$(expr $v3 + 1)
+    fi
+    ver="$v1.$v2.$v3"
+    echo $ver
+  fi
+}
 function todir() {
   pwd
 }
@@ -16,12 +40,14 @@ function forcepull() {
   echo "git fetch --all && git reset --hard origin/master && git pull"
   git fetch --all && git reset --hard origin/master && git pull
 }
-
 function tag() {
+    version=$(getversion)
+    echo "current version:${version}"
     git add .
-    git commit -m "release ${version}"
-    git tag -a $version -m "release${version}"
-    git push origin $version
+    git commit -m "release v${version}"
+    git tag -a v$version -m "release v${version}"
+    git push origin v$version
+    echo $version >version.txt
 }
 
 
