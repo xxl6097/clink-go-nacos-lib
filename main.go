@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/xxl6097/clink-go-redis-lib/nacos"
+	"github.com/xxl6097/clink-go-nacos-lib/nacos"
 	"github.com/xxl6097/go-glog/glog"
 )
 
