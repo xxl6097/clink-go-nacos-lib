@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=v0.0.3
+version=v0.0.4
 function todir() {
   pwd
 }
