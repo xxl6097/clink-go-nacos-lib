@@ -9,7 +9,6 @@ import (
 	"github.com/xxl6097/clink-go-nacos-lib/iface"
 	"github.com/xxl6097/go-glog/glog"
 	"gopkg.in/yaml.v3"
-	"log"
 	"strings"
 )
 
@@ -61,7 +60,7 @@ func Get[T any](dataid, group string, inacos iface.INacos) *T {
 	var v T
 	err := yaml.Unmarshal([]byte(context), &v)
 	if err != nil {
-		log.Fatal(err)
+		glog.Error(err)
 	}
 	return &v
 }
@@ -102,11 +101,11 @@ func (this *Nacos) initConfig(clientConfig constant.ClientConfig) {
 	var _spring entity.SpringConfig
 	err := yaml.Unmarshal([]byte(this.GetConfig(DATA_ID_REDIS, GROUP_REDIS)), &_spring)
 	if err != nil {
-		log.Fatal(err)
+		glog.Fatal(err)
 	}
 	err1 := yaml.Unmarshal([]byte(this.GetConfig(DATA_ID_MQ, GROUP_MQ)), &_spring)
 	if err1 != nil {
-		log.Fatal(err1)
+		glog.Fatal(err1)
 	} else {
 		if _spring.Spring.Rocketmq.NameServers != "" {
 			arr := strings.Split(_spring.Spring.Rocketmq.NameServers, ";")
