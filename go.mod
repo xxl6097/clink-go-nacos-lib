@@ -1,4 +1,4 @@
-module github.com/xxl6097/clink-go-redis-lib
+module github.com/xxl6097/clink-go-nacos-lib
 
 go 1.22
 

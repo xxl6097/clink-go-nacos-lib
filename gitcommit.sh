@@ -1,4 +1,6 @@
 #!/bin/bash
+
+version=v0.0.1
 function todir() {
   pwd
 }
@@ -13,6 +15,13 @@ function forcepull() {
   todir
   echo "git fetch --all && git reset --hard origin/master && git pull"
   git fetch --all && git reset --hard origin/master && git pull
+}
+
+function tag() {
+    git add .
+    git commit -m "release ${version}"
+    git tag -a $version -m "release${version}"
+    git push origin $version
 }
 
 
@@ -36,7 +45,7 @@ function m() {
     echo "1. 强制更新"
     echo "2. 普通更新"
     echo "3. 提交项目"
-    echo "4. 构建镜像"
+    echo "4. tag"
     echo "请输入编号:"
     read index
 
@@ -44,7 +53,7 @@ function m() {
     [1]) (forcepull);;
     [2]) (pull);;
     [3]) (gitpush);;
-    [4]) (createimage);;
+    [4]) (tag);;
     *) echo "exit" ;;
   esac
 }
